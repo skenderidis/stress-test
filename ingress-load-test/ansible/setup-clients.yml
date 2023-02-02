@@ -1,0 +1,35 @@
+---
+- hosts: clients
+  become: true
+  gather_facts: no
+  tasks:
+  - name: ensure apache2-utils is at the latest version
+    apt: name=apache2-utils state=latest
+
+  - name: ensure ifstat is at the latest version
+    apt: name=ifstat state=latest
+
+  - name: Download Git Repository
+    git:
+      repo: https://github.com/giltene/wrk2.git
+      dest: /home/{{ansible_user}}/wrk2
+
+  - name: Installing wrk prerequisites
+    apt: 
+      name:
+        - build-essential
+        - libssl-dev
+        - zlib1g-dev
+      state: present
+
+  - name: Build the default target
+    make:
+      chdir: /home/{{ansible_user}}/wrk2
+
+
+  - name: Copy a "wrk" file to usr bin
+    ansible.builtin.copy:
+      src: /home/{{ansible_user}}/wrk2/wrk
+      dest: /usr/local/bin/wrk
+      remote_src: yes
+      mode: '0777'

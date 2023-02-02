@@ -9,16 +9,26 @@ echo " ****************   Starting Test **************** "
 x=1
 while [ $x -le 5 ]
 do
-  kubectl scale deployment echo --replicas=14
-  sleep 10
-  kubectl scale deployment echo --replicas=11
-  sleep 10
-  kubectl scale deployment echo --replicas=12
-  sleep 10
-  kubectl scale deployment echo --replicas=8
-  sleep 10
-  kubectl scale deployment echo --replicas=14
-  sleep 10
+  kubectl scale deployment myapp-1 --replicas=14
+  kubectl scale deployment myapp-2 --replicas=14
+  kubectl scale deployment myapp-3 --replicas=14
+  sleep 30
+  kubectl scale deployment myapp-1 --replicas=11
+  kubectl scale deployment myapp-2 --replicas=11
+  kubectl scale deployment myapp-3 --replicas=11
+  sleep 30
+  kubectl scale deployment myapp-1 --replicas=12
+  kubectl scale deployment myapp-2 --replicas=12
+  kubectl scale deployment myapp-3 --replicas=12
+  sleep 30
+  kubectl scale deployment myapp-1 --replicas=8
+  kubectl scale deployment myapp-2 --replicas=8
+  kubectl scale deployment myapp-3 --replicas=8
+  sleep 30
+  kubectl scale deployment myapp-1 --replicas=14
+  kubectl scale deployment myapp-2 --replicas=14
+  kubectl scale deployment myapp-3 --replicas=14
+  sleep 30
   x=$(( $x + 1 ))
 done
 
